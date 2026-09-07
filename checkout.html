@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Finalizar compra · Zeno Pro</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#070c18;--bg2:#0d1525;--bg3:#12172a;--bg4:#1e2a40;
+  --border:#252d42;--text2:#8899aa;--text3:#4a5a70;
+  --blue:#4d9ef7;--green:#22c55e;--purple:#a855f7;
+}
+body{background:var(--bg);color:#f0f4ff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100vh;display:flex;flex-direction:column}
+.gradient-text{background:linear-gradient(135deg,#4d9ef7,#a855f7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+/* NAV SIMPLES */
+nav{padding:16px 24px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);background:var(--bg2)}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo-z{width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,#4d9ef7,#a855f7);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:900;color:#fff}
+.logo-nome{font-size:15px;font-weight:800;color:#fff}
+.seguro{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text3)}
+
+/* LAYOUT */
+.checkout-wrap{flex:1;display:flex;align-items:flex-start;justify-content:center;padding:40px 24px;gap:32px;max-width:900px;margin:0 auto;width:100%}
+@media(max-width:680px){.checkout-wrap{flex-direction:column-reverse}.resumo{width:100%}}
+
+/* FORMULÁRIO */
+.form-box{flex:1;min-width:0}
+.form-titulo{font-size:22px;font-weight:900;margin-bottom:6px}
+.form-sub{font-size:14px;color:var(--text3);margin-bottom:28px}
+.fg{margin-bottom:16px}
+.fg label{display:block;font-size:12px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.fg input{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:13px 14px;color:#fff;font-size:15px;font-family:inherit;outline:none;transition:border-color .2s}
+.fg input:focus{border-color:var(--blue)}
+.fg input::placeholder{color:var(--text3)}
+.divider{display:flex;align-items:center;gap:12px;margin:24px 0;color:var(--text3);font-size:13px}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--border)}
+.btn-pagar{width:100%;padding:16px;background:linear-gradient(135deg,#4d9ef7,#a855f7);border:none;border-radius:14px;color:#fff;font-size:17px;font-weight:800;cursor:pointer;font-family:inherit;transition:transform .2s,opacity .2s;margin-bottom:12px}
+.btn-pagar:hover{transform:translateY(-2px);opacity:.92}
+.btn-pagar:active{transform:scale(.98)}
+.garantias{display:flex;justify-content:center;gap:20px;font-size:12px;color:var(--text3);flex-wrap:wrap}
+.garantias span{display:flex;align-items:center;gap:4px}
+.msg{border-radius:10px;padding:12px 14px;font-size:13px;font-weight:600;margin-top:10px;display:none;text-align:center}
+.msg.ok{background:rgba(34,197,94,.12);color:var(--green);display:block}
+.msg.err{background:rgba(239,68,68,.12);color:#ef4444;display:block}
+
+/* RESUMO */
+.resumo{width:300px;flex-shrink:0}
+.resumo-box{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:24px;position:sticky;top:24px}
+.resumo-titulo{font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:16px}
+.produto-linha{display:flex;gap:14px;margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid var(--border)}
+.produto-ico{width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,#4d9ef7,#a855f7);display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:900;color:#fff;flex-shrink:0}
+.produto-nome{font-size:15px;font-weight:800;margin-bottom:4px}
+.produto-desc{font-size:12px;color:var(--text3)}
+.resumo-lista{list-style:none;margin-bottom:20px}
+.resumo-lista li{display:flex;align-items:center;gap:8px;padding:6px 0;font-size:13px;color:var(--text2)}
+.resumo-lista li::before{content:'✓';color:var(--green);font-weight:700;flex-shrink:0}
+.resumo-preco{padding-top:16px;border-top:1px solid var(--border)}
+.resumo-de{font-size:12px;color:var(--text3);text-decoration:line-through;margin-bottom:4px}
+.resumo-por{font-size:28px;font-weight:900;margin-bottom:4px}
+.resumo-tipo{font-size:12px;color:var(--text3)}
+.badge-garantia{background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);border-radius:10px;padding:10px 12px;margin-top:16px;font-size:12px;color:var(--green);display:flex;align-items:center;gap:8px}
+
+/* STEPS */
+.steps{display:flex;gap:8px;margin-bottom:28px}
+.step{flex:1;text-align:center;font-size:11px}
+.step-dot{width:24px;height:24px;border-radius:50%;margin:0 auto 4px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800}
+.step.on .step-dot{background:var(--blue);color:#fff}
+.step.done .step-dot{background:var(--green);color:#fff}
+.step:not(.on):not(.done) .step-dot{background:var(--bg4);color:var(--text3)}
+.step.on .step-lbl{color:#fff;font-weight:700}
+.step:not(.on) .step-lbl{color:var(--text3)}
+.step-line{flex:1;height:2px;background:var(--border);margin-top:12px;border-radius:1px}
+.step-line.done{background:var(--green)}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="zeno-landing.html" class="nav-logo">
+    <div class="logo-z">Z</div>
+    <div class="logo-nome">Zeno Pro</div>
+  </a>
+  <div class="seguro">🔒 Compra segura</div>
+</nav>
+
+<div class="checkout-wrap">
+
+  <!-- FORMULÁRIO -->
+  <div class="form-box">
+    <div class="steps">
+      <div class="step on"><div class="step-dot">1</div><div class="step-lbl">Seus dados</div></div>
+      <div class="step-line"></div>
+      <div class="step"><div class="step-dot">2</div><div class="step-lbl">Pagamento</div></div>
+      <div class="step-line"></div>
+      <div class="step"><div class="step-dot">3</div><div class="step-lbl">Acesso</div></div>
+    </div>
+
+    <div class="form-titulo">Quase lá! 🎉</div>
+    <div class="form-sub">Preencha seus dados para receber o acesso imediatamente após o pagamento.</div>
+
+    <div class="fg">
+      <label>Seu nome completo *</label>
+      <input type="text" id="inp-nome" placeholder="Ana Maria Silva" autocomplete="name">
+    </div>
+    <div class="fg">
+      <label>Seu melhor email *</label>
+      <input type="email" id="inp-email" placeholder="ana@email.com" autocomplete="email">
+      <div style="font-size:11px;color:var(--text3);margin-top:6px">📧 O acesso será enviado para este email</div>
+    </div>
+
+    <div class="divider">Escolha como pagar</div>
+
+    <button class="btn-pagar btn-pix" onclick="irParaPagamento('pix')" style="background:linear-gradient(135deg,#22c55e,#16a34a);margin-bottom:12px">
+      ⚡ Pagar com Pix — R$59,90
+      <div style="font-size:12px;font-weight:400;opacity:.85;margin-top:3px">Aprovação imediata · Sem taxas</div>
+    </button>
+
+    <button class="btn-pagar btn-cartao" onclick="irParaPagamento('cartao')" style="background:linear-gradient(135deg,#4d9ef7,#2563eb)">
+      💳 Pagar com Cartão — R$59,90
+      <div style="font-size:12px;font-weight:400;opacity:.85;margin-top:3px">À vista ou parcelado</div>
+    </button>
+
+    <div class="garantias">
+      <span>🔒 Pagamento seguro</span>
+      <span>⚡ Acesso imediato</span>
+      <span>🛡️ Garantia 7 dias</span>
+    </div>
+
+    <div class="msg" id="msg-checkout"></div>
+
+    <div style="margin-top:28px;padding:16px;background:var(--bg3);border-radius:12px;border:1px solid var(--border)">
+      <div style="font-size:12px;font-weight:700;color:var(--text3);margin-bottom:8px">📋 COMO FUNCIONA</div>
+      <div style="font-size:13px;color:var(--text2);line-height:1.7">
+        1. Você preenche nome e email<br>
+        2. Clica em pagar e conclui o pagamento na Cora<br>
+        3. Recebe o acesso completo no seu email em até 5 minutos
+      </div>
+    </div>
+  </div>
+
+  <!-- RESUMO -->
+  <div class="resumo">
+    <div class="resumo-box">
+      <div class="resumo-titulo">Resumo do pedido</div>
+      <div class="produto-linha">
+        <div class="produto-ico">Z</div>
+        <div>
+          <div class="produto-nome">Zeno Pro</div>
+          <div class="produto-desc">Controle Financeiro Pessoal</div>
+        </div>
+      </div>
+      <ul class="resumo-lista">
+        <li>Planilha Google Sheets Pro</li>
+        <li>App mobile (Android + iPhone)</li>
+        <li>Dashboard desktop completo</li>
+        <li>Investimentos com cotação ao vivo</li>
+        <li>Suporte por 6 meses via WhatsApp</li>
+        <li>Atualizações incluídas</li>
+        <li>🎁 10 e-books bônus grátis</li>
+      </ul>
+      <div class="resumo-preco">
+        <div class="resumo-de">De R$97,00</div>
+        <div class="resumo-por gradient-text">R$59,90</div>
+        <div class="resumo-tipo">pagamento único · sem mensalidade</div>
+      </div>
+      <div class="badge-garantia">🛡️ Garantia incondicional de 7 dias</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+ // ← substitua pelo link gerado na Cora
+
+const LINK_PIX     = 'https://mpago.li/1RiNuNm';
+const LINK_CARTAO  = 'https://mpago.li/1RiNuNm';
+
+function irParaPagamento(metodo){
+  var nome = document.getElementById('inp-nome').value.trim();
+  var email = document.getElementById('inp-email').value.trim();
+  var msg = document.getElementById('msg-checkout');
+
+  if(!nome){
+    msg.className='msg err';
+    msg.textContent='❌ Por favor, informe seu nome.';
+    return;
+  }
+  if(!email || !email.includes('@')){
+    msg.className='msg err';
+    msg.textContent='❌ Por favor, informe um email válido.';
+    return;
+  }
+
+  // Salvar dados no localStorage para usar na página de obrigado
+  localStorage.setItem('zeno_comprador_nome', nome);
+  localStorage.setItem('zeno_comprador_email', email);
+
+  var link = metodo === 'pix' ? LINK_PIX : LINK_CARTAO;
+
+  msg.className='msg ok';
+  msg.textContent = metodo === 'pix'
+    ? '✅ Redirecionando para o Pix...'
+    : '✅ Redirecionando para o cartão...';
+
+  setTimeout(function(){
+    window.location.href = link;
+  }, 1000);
+}
+
+// Enter no email dispara o pagamento
+document.getElementById('inp-email').addEventListener('keydown', function(e){
+  if(e.key === 'Enter') irParaPagamento();
+});
+</script>
+
+</body>
+</html>
